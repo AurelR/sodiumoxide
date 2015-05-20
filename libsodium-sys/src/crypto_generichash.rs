@@ -1,5 +1,8 @@
 // crypto_generichash.h
 
+#[allow(non_camel_case_types)]
+pub type crypto_generichash_state = crypto_generichash_blake2b_state;
+
 pub const crypto_generichash_BYTES_MIN: usize = crypto_generichash_blake2b_BYTES_MIN;
 pub const crypto_generichash_BYTES_MAX: usize = crypto_generichash_blake2b_BYTES_MAX;
 pub const crypto_generichash_BYTES: usize = crypto_generichash_blake2b_BYTES;
@@ -24,6 +27,25 @@ extern {
         inlen: c_ulonglong,
         key: *const u8,
         keylen: size_t)
+        -> c_int;
+
+    pub fn crypto_generichash_init(
+        state: *mut crypto_generichash_state,
+        key: *const u8,
+        keylen: size_t,
+        outlen: size_t)
+        -> c_int;
+
+    pub fn crypto_generichash_update(
+        state: *mut crypto_generichash_state,
+        in_: *const u8,
+        inlen: c_ulonglong)
+        -> c_int;
+
+    pub fn crypto_generichash_final(
+        state: *mut crypto_generichash_state,
+        out: *mut u8,
+        outlen: size_t)
         -> c_int;
 }
 
